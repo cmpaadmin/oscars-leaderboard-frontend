@@ -14,13 +14,24 @@ h1,h2,h3{text-align:center}
 .tie{font-weight:bold;color:#AD8621}
 img{display:block;margin:auto;height:120px}
 
-#announce{display:none; position: fixed;
-  top: 40%;              /* ← THIS moves it down */
+#announce {
+  display: none;
+  position: fixed;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-      
-}}
+  font-size: 2.8rem;
+  z-index: 10;
+
+  /* New box styles */
+  background: rgba(0, 0, 0, 0.6);   /* semi-transparent black */
+  border: 4px solid #ffd700;         /* bright gold border */
+  border-radius: 16px;
+  padding: 20px 40px;                /* space inside the box */
+  min-width: 400px;                  /* optional: keep box wide for text */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* subtle gold glow around box */
+}
 .fade{animation:fade 10s}
 @keyframes fade{0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0}}
 </style>
