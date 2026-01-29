@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<style>
+body{margin:0;font-family:Georgia,serif;background:radial-gradient(circle,#3b2f1a,#000);color:gold}
+h1,h2,h3{text-align:center}
+.card{background:rgba(0,0,0,.6);border:1px solid gold;border-radius:12px;padding:16px;margin:12px}
+.tie{font-weight:bold;color:#ffdf7f}
+img{display:block;margin:auto;height:120px}
+</style>
+</head>
+<body>
+<img src="https://variety.com/wp-content/uploads/2022/07/2008-Oscar-Statue.jpg">
+<h1>Admin Control</h1>
+<input id="pw" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<div id="cats"></div>
+
+<script>
+const socket = io("https://oscars-leaderboard.onrender.com");
+let ok = false;
+
+function login(){ socket.emit("AUTH", document.getElementById("pw").value); }
+socket.on("AUTH_OK", ()=> ok=true);
+
+socket.on("INIT", d => {
+  const el=document.getElementById("cats");
+  d.categories.forEach(c=>{
+    const div=document.createElement("div");
+    div.className="card";
+    const sel=document.createElement("select");
+    sel.innerHTML="<option></option>"+c.nominees.split("|").map(n=>"<option>"+n+"</option>").join("");
+    sel.onchange=()=> ok && socket.emit("SELECT_WINNER",{categoryId:c.id,winner:sel.value});
+    div.innerHTML="<h3>"+c.name+"</h3>";
+    div.appendChild(sel);
+    el.appendChild(div);
+  });
+});
+</script>
+</body>
+</html>
